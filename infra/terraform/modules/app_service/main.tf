@@ -11,14 +11,6 @@ resource "azurerm_service_plan" "this" {
   tags = var.tags
 }
 
-resource "azurerm_application_insights" "this" {
-  name                = var.app_insights_name
-  location            = var.location
-  resource_group_name = var.resource_group_name
-  application_type    = "web"
-
-  tags = var.tags
-}
 
 resource "azurerm_linux_web_app" "this" {
   name                = var.app_service_name
@@ -34,8 +26,8 @@ resource "azurerm_linux_web_app" "this" {
   }
 
   app_settings = {
-    APPINSIGHTS_INSTRUMENTATIONKEY        = azurerm_application_insights.this.instrumentation_key
-    APPLICATIONINSIGHTS_CONNECTION_STRING = azurerm_application_insights.this.connection_string
+    APPINSIGHTS_INSTRUMENTATIONKEY        = var.app_insights_instrumentation_key
+    APPLICATIONINSIGHTS_CONNECTION_STRING = var.app_insights_connection_string
   }
 
   tags = var.tags

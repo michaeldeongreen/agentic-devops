@@ -26,6 +26,23 @@ variable "app_insights_name" {
   type        = string
 }
 
+variable "log_analytics_workspace_name" {
+  description = "Log Analytics workspace name for dev."
+  type        = string
+}
+
+variable "log_analytics_workspace_sku" {
+  description = "Log Analytics workspace SKU for dev."
+  type        = string
+  default     = "PerGB2018"
+}
+
+variable "log_analytics_workspace_retention_in_days" {
+  description = "Log Analytics workspace retention in days for dev."
+  type        = number
+  default     = 30
+}
+
 variable "dotnet_version" {
   description = "Dotnet runtime version for the Linux Web App (e.g., 9.0)."
   type        = string

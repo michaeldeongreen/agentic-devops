@@ -76,6 +76,9 @@ jobs:
             -var="app_service_plan_name=${{ vars.APP_SERVICE_PLAN_NAME }}" \
             -var="app_service_plan_sku_name=${{ inputs.app-service-plan-sku-name }}" \
             -var="app_insights_name=${{ vars.APP_INSIGHTS_NAME }}" \
+            -var="log_analytics_workspace_name=${{ vars.LOG_ANALYTICS_WORKSPACE_NAME }}" \
+            -var="log_analytics_workspace_sku=${{ vars.LOG_ANALYTICS_WORKSPACE_SKU }}" \
+            -var="log_analytics_workspace_retention_in_days=${{ vars.LOG_ANALYTICS_WORKSPACE_RETENTION_IN_DAYS }}" \
             -var="dotnet_version=${{ inputs.dotnet-version }}"
 
       - name: Terraform Apply

@@ -16,8 +16,13 @@ variable "app_service_plan_sku_name" {
   default     = "B1"
 }
 
-variable "app_insights_name" {
-  description = "Name of Application Insights resource."
+variable "app_insights_instrumentation_key" {
+  description = "Instrumentation key for Application Insights."
+  type        = string
+}
+
+variable "app_insights_connection_string" {
+  description = "Connection string for Application Insights."
   type        = string
 }
 
