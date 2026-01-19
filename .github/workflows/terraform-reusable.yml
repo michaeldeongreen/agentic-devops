@@ -14,57 +14,16 @@ on:
         description: "Terraform root directory for the target environment."
         required: true
         type: string
-      tf-state-resource-group:
-        description: "Resource group containing the state storage account."
-        required: true
-        type: string
-      tf-state-storage-account:
-        description: "Storage account name for Terraform state."
-        required: true
-        type: string
-      tf-state-container:
-        description: "Blob container name for Terraform state."
-        required: true
-        type: string
-      tf-state-key:
-        description: "State file key (path) within the container."
-        required: true
-        type: string
-      resource-group-name:
-        description: "Target resource group for deployment."
-        required: true
-        type: string
-      app-service-name:
-        description: "Web App name (globally unique)."
-        required: true
-        type: string
-      app-service-plan-name:
-        description: "App Service Plan name."
-        required: true
-        type: string
       app-service-plan-sku-name:
         description: "App Service Plan SKU name (e.g., B1)."
         required: true
         type: string
         default: "B1"
-      app-insights-name:
-        description: "Application Insights name."
-        required: true
-        type: string
       linux-fx-version:
         description: "Linux runtime stack (e.g., DOTNETCORE|9.0)."
         required: true
         type: string
         default: "DOTNETCORE|9.0"
-    secrets:
-      AZURE_CLIENT_ID:
-        required: true
-      AZURE_TENANT_ID:
-        required: true
-      AZURE_SUBSCRIPTION_ID:
-        required: true
-      AZURE_CLIENT_SECRET:
-        required: true
 
 jobs:
   terraform:
@@ -91,10 +50,10 @@ jobs:
         run: |
           # Initialize backend with Azure Storage
           terraform init \
-            -backend-config="resource_group_name=${{ inputs.tf-state-resource-group }}" \
-            -backend-config="storage_account_name=${{ inputs.tf-state-storage-account }}" \
-            -backend-config="container_name=${{ inputs.tf-state-container }}" \
-            -backend-config="key=${{ inputs.tf-state-key }}" \
+            -backend-config="resource_group_name=${{ vars.TF_STATE_RESOURCE_GROUP }}" \
+            -backend-config="storage_account_name=${{ vars.STORAGE_ACCOUNT_NAME }}" \
+            -backend-config="container_name=${{ vars.STORAGE_ACCOUNT_CONTAINER_NAME }}" \
+            -backend-config="key=${{ vars.TF_STATE_KEY }}" \
             -backend-config="use_azuread_auth=true"
 
       - name: Terraform Plan
@@ -103,11 +62,11 @@ jobs:
           # Create a plan for the selected environment
           terraform plan \
             -out=tfplan \
-            -var="resource_group_name=${{ inputs.resource-group-name }}" \
-            -var="app_service_name=${{ inputs.app-service-name }}" \
-            -var="app_service_plan_name=${{ inputs.app-service-plan-name }}" \
+            -var="resource_group_name=${{ vars.RESOURCE_GROUP }}" \
+            -var="app_service_name=${{ vars.APP_SERVICE_NAME }}" \
+            -var="app_service_plan_name=${{ vars.APP_SERVICE_PLAN_NAME }}" \
             -var="app_service_plan_sku_name=${{ inputs.app-service-plan-sku-name }}" \
-            -var="app_insights_name=${{ inputs.app-insights-name }}" \
+            -var="app_insights_name=${{ vars.APP_INSIGHTS_NAME }}" \
             -var="linux_fx_version=${{ inputs.linux-fx-version }}"
 
       - name: Terraform Apply

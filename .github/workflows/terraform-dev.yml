@@ -16,18 +16,5 @@ jobs:
     with:
       environment-name: Development
       working-directory: infra/terraform/envs/dev
-      tf-state-resource-group: ${{ vars.TF_STATE_RESOURCE_GROUP }}
-      tf-state-storage-account: ${{ vars.STORAGE_ACCOUNT_NAME }}
-      tf-state-container: ${{ vars.STORAGE_ACCOUNT_CONTAINER_NAME }}
-      tf-state-key: ${{ vars.TF_STATE_KEY }}
-      resource-group-name: ${{ vars.RESOURCE_GROUP }}
-      app-service-name: ${{ vars.APP_SERVICE_NAME }}
-      app-service-plan-name: ${{ vars.APP_SERVICE_PLAN_NAME }}
       app-service-plan-sku-name: B1
-      app-insights-name: ${{ vars.APP_INSIGHTS_NAME }}
       linux-fx-version: DOTNETCORE|9.0
-    secrets:
-      AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
-      AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
-      AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-      AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
