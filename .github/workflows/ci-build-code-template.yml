@@ -35,6 +35,7 @@ jobs:
         run: |
           dotnet build src/Agentic.DevOps.Services/Agentic.DevOps.Services.csproj --configuration Release --no-restore
           dotnet build src/Agentic.DevOps.WebAPI/Agentic.DevOps.WebAPI.csproj --configuration Release --no-restore
+          dotnet build src/Agentic.DevOps.Services.UnitTests/Agentic.DevOps.Services.UnitTests.csproj --configuration Release --no-restore
 
       - name: Test
         run: |
