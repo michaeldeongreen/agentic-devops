@@ -24,6 +24,15 @@ on:
         required: true
         type: string
         default: "DOTNETCORE|9.0"
+    secrets:
+      AZURE_CLIENT_ID:
+        required: true
+      AZURE_TENANT_ID:
+        required: true
+      AZURE_SUBSCRIPTION_ID:
+        required: true
+      AZURE_CLIENT_SECRET:
+        required: true
 
 jobs:
   terraform:
