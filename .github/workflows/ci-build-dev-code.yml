@@ -1,0 +1,19 @@
+# Development CI workflow that calls the reusable build/test workflow.
+
+name: CI Build Dev Code
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - src/**
+      - .github/workflows/ci-build-*.yml
+  workflow_dispatch:
+
+jobs:
+  ci-build-dev:
+    name: CI Build Dev
+    uses: ./.github/workflows/ci-build-code-template.yml
+    with:
+      dotnet-version: "9.0.x"

@@ -1,0 +1,41 @@
+# Reusable CI workflow for building and testing code.
+
+name: CI Build Code Template
+
+on:
+  workflow_call:
+    inputs:
+      dotnet-version:
+        description: "Dotnet SDK version to use."
+        required: false
+        type: string
+        default: "9.0.x"
+
+jobs:
+  build-test:
+    name: Build and Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ inputs.dotnet-version }}
+
+      - name: Restore
+        run: |
+          dotnet restore src/Agentic.DevOps.Services/Agentic.DevOps.Services.csproj
+          dotnet restore src/Agentic.DevOps.WebAPI/Agentic.DevOps.WebAPI.csproj
+          dotnet restore src/Agentic.DevOps.Services.UnitTests/Agentic.DevOps.Services.UnitTests.csproj
+
+      - name: Build
+        run: |
+          dotnet build src/Agentic.DevOps.Services/Agentic.DevOps.Services.csproj --configuration Release --no-restore
+          dotnet build src/Agentic.DevOps.WebAPI/Agentic.DevOps.WebAPI.csproj --configuration Release --no-restore
+
+      - name: Test
+        run: |
+          dotnet test src/Agentic.DevOps.Services.UnitTests/Agentic.DevOps.Services.UnitTests.csproj --configuration Release --no-build
