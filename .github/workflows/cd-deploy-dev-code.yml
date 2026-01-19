@@ -1,0 +1,23 @@
+# Development CD workflow that runs after CI success.
+
+name: CD Deploy Dev Code
+
+on:
+  workflow_run:
+    workflows:
+      - CI Build Dev Code
+    branches:
+      - main
+    types:
+      - completed
+
+jobs:
+  deploy-dev:
+    name: Deploy Dev WebAPI
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    uses: ./.github/workflows/cd-deploy-code-template.yml
+    secrets: inherit
+    with:
+      app-service-name: ${{ vars.APP_SERVICE_NAME }}
+      resource-group: ${{ vars.RESOURCE_GROUP }}
+      dotnet-version: "9.0.x"
