@@ -15,7 +15,7 @@ on:
 jobs:
   deploy-dev:
     name: Deploy DEV Infrastructure
-    uses: ./.github/workflows/terraform-reusable.yml
+    uses: ./.github/workflows/terraform-deploy-infra-template.yml
     secrets:
       AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
       AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
