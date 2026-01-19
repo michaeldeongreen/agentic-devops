@@ -27,7 +27,7 @@ data "azurerm_resource_group" "target" {
 module "app_service" {
   source = "../../modules/app_service"
 
-  app_name               = var.app_name
+  app_service_name       = var.app_service_name
   app_service_plan_name  = var.app_service_plan_name
   app_service_plan_sku_name = var.app_service_plan_sku_name
   app_insights_name      = var.app_insights_name

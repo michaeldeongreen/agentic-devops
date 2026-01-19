@@ -5,7 +5,7 @@ variable "resource_group_name" {
   type        = string
 }
 
-variable "app_name" {
+variable "app_service_name" {
   description = "Web App name for dev. Must be globally unique."
   type        = string
 }

@@ -14,7 +14,7 @@ variables:
   - name: TF_STATE_RESOURCE_GROUP
     value: '$(RESOURCE_GROUP)'
   # App-specific values (set these in the variable group for dev).
-  - name: APP_NAME
+  - name: APP_SERVICE_NAME
     value: 'agentic-devops-webapi-dev'
   - name: APP_SERVICE_PLAN_NAME
     value: 'asp-agentic-devops-dev'
@@ -43,7 +43,7 @@ stages:
                     tfStateContainer: '$(STORAGE_ACCOUNT_CONTAINER_NAME)'
                     tfStateKey: '$(TF_STATE_KEY)'
                     resourceGroupName: '$(RESOURCE_GROUP)'
-                    appName: '$(APP_NAME)'
+                    appServiceName: '$(APP_SERVICE_NAME)'
                     appServicePlanName: '$(APP_SERVICE_PLAN_NAME)'
                     appServicePlanSkuName: 'B1'
                     appInsightsName: '$(APP_INSIGHTS_NAME)'

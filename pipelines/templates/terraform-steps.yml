@@ -10,7 +10,7 @@ parameters:
   tfStateContainer: ''
   tfStateKey: ''
   resourceGroupName: ''
-  appName: ''
+  appServiceName: ''
   appServicePlanName: ''
   appServicePlanSkuName: 'B1'
   appInsightsName: ''
@@ -43,7 +43,7 @@ steps:
         terraform -chdir=${{ parameters.workingDirectory }} plan \
           -out=tfplan \
           -var="resource_group_name=${{ parameters.resourceGroupName }}" \
-          -var="app_name=${{ parameters.appName }}" \
+          -var="app_service_name=${{ parameters.appServiceName }}" \
           -var="app_service_plan_name=${{ parameters.appServicePlanName }}" \
           -var="app_service_plan_sku_name=${{ parameters.appServicePlanSkuName }}" \
           -var="app_insights_name=${{ parameters.appInsightsName }}" \

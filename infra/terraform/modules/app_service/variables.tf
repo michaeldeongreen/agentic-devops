@@ -1,6 +1,6 @@
 // Input variables for the App Service module.
 
-variable "app_name" {
+variable "app_service_name" {
   description = "Name of the Web App. Must be globally unique."
   type        = string
 }

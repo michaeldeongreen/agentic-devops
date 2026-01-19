@@ -1,0 +1,116 @@
+# Reusable Terraform workflow for Azure infrastructure.
+# Uses client-secret auth and Azure Storage backend.
+
+name: Terraform Reusable
+
+on:
+  workflow_call:
+    inputs:
+      environment-name:
+        description: "GitHub Environment name (e.g., Development)."
+        required: true
+        type: string
+      working-directory:
+        description: "Terraform root directory for the target environment."
+        required: true
+        type: string
+      tf-state-resource-group:
+        description: "Resource group containing the state storage account."
+        required: true
+        type: string
+      tf-state-storage-account:
+        description: "Storage account name for Terraform state."
+        required: true
+        type: string
+      tf-state-container:
+        description: "Blob container name for Terraform state."
+        required: true
+        type: string
+      tf-state-key:
+        description: "State file key (path) within the container."
+        required: true
+        type: string
+      resource-group-name:
+        description: "Target resource group for deployment."
+        required: true
+        type: string
+      app-service-name:
+        description: "Web App name (globally unique)."
+        required: true
+        type: string
+      app-service-plan-name:
+        description: "App Service Plan name."
+        required: true
+        type: string
+      app-service-plan-sku-name:
+        description: "App Service Plan SKU name (e.g., B1)."
+        required: true
+        type: string
+        default: "B1"
+      app-insights-name:
+        description: "Application Insights name."
+        required: true
+        type: string
+      linux-fx-version:
+        description: "Linux runtime stack (e.g., DOTNETCORE|9.0)."
+        required: true
+        type: string
+        default: "DOTNETCORE|9.0"
+    secrets:
+      AZURE_CLIENT_ID:
+        required: true
+      AZURE_TENANT_ID:
+        required: true
+      AZURE_SUBSCRIPTION_ID:
+        required: true
+      AZURE_CLIENT_SECRET:
+        required: true
+
+jobs:
+  terraform:
+    name: Terraform Apply
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment-name }}
+
+    env:
+      # Azure credentials for Terraform (client secret auth)
+      ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+      ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+      ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Terraform Init
+        working-directory: ${{ inputs.working-directory }}
+        run: |
+          # Initialize backend with Azure Storage
+          terraform init \
+            -backend-config="resource_group_name=${{ inputs.tf-state-resource-group }}" \
+            -backend-config="storage_account_name=${{ inputs.tf-state-storage-account }}" \
+            -backend-config="container_name=${{ inputs.tf-state-container }}" \
+            -backend-config="key=${{ inputs.tf-state-key }}"
+
+      - name: Terraform Plan
+        working-directory: ${{ inputs.working-directory }}
+        run: |
+          # Create a plan for the selected environment
+          terraform plan \
+            -out=tfplan \
+            -var="resource_group_name=${{ inputs.resource-group-name }}" \
+            -var="app_service_name=${{ inputs.app-service-name }}" \
+            -var="app_service_plan_name=${{ inputs.app-service-plan-name }}" \
+            -var="app_service_plan_sku_name=${{ inputs.app-service-plan-sku-name }}" \
+            -var="app_insights_name=${{ inputs.app-insights-name }}" \
+            -var="linux_fx_version=${{ inputs.linux-fx-version }}"
+
+      - name: Terraform Apply
+        working-directory: ${{ inputs.working-directory }}
+        run: |
+          # Apply the plan output from the previous step
+          terraform apply -auto-approve tfplan
