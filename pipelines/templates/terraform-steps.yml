@@ -1,0 +1,60 @@
+# Reusable Terraform steps for init/plan/apply.
+# Assumes Terraform is available on the agent.
+
+parameters:
+  environmentName: ''
+  azureServiceConnection: ''
+  workingDirectory: ''
+  tfStateResourceGroup: ''
+  tfStateStorageAccount: ''
+  tfStateContainer: ''
+  tfStateKey: ''
+  resourceGroupName: ''
+  appName: ''
+  appServicePlanName: ''
+  appServicePlanSkuName: 'B1'
+  appInsightsName: ''
+  linuxFxVersion: 'DOTNETCORE|9.0'
+
+steps:
+  - task: AzureCLI@2
+    displayName: 'Terraform Init'
+    inputs:
+      azureSubscription: ${{ parameters.azureServiceConnection }}
+      scriptType: bash
+      scriptLocation: inlineScript
+      inlineScript: |
+        # Init Terraform backend (Azure Storage)
+        terraform -version
+        terraform -chdir=${{ parameters.workingDirectory }} init \
+          -backend-config="resource_group_name=${{ parameters.tfStateResourceGroup }}" \
+          -backend-config="storage_account_name=${{ parameters.tfStateStorageAccount }}" \
+          -backend-config="container_name=${{ parameters.tfStateContainer }}" \
+          -backend-config="key=${{ parameters.tfStateKey }}"
+
+  - task: AzureCLI@2
+    displayName: 'Terraform Plan'
+    inputs:
+      azureSubscription: ${{ parameters.azureServiceConnection }}
+      scriptType: bash
+      scriptLocation: inlineScript
+      inlineScript: |
+        # Create a plan for the selected environment
+        terraform -chdir=${{ parameters.workingDirectory }} plan \
+          -out=tfplan \
+          -var="resource_group_name=${{ parameters.resourceGroupName }}" \
+          -var="app_name=${{ parameters.appName }}" \
+          -var="app_service_plan_name=${{ parameters.appServicePlanName }}" \
+          -var="app_service_plan_sku_name=${{ parameters.appServicePlanSkuName }}" \
+          -var="app_insights_name=${{ parameters.appInsightsName }}" \
+          -var="linux_fx_version=${{ parameters.linuxFxVersion }}"
+
+  - task: AzureCLI@2
+    displayName: 'Terraform Apply'
+    inputs:
+      azureSubscription: ${{ parameters.azureServiceConnection }}
+      scriptType: bash
+      scriptLocation: inlineScript
+      inlineScript: |
+        # Apply the plan output from the previous step
+        terraform -chdir=${{ parameters.workingDirectory }} apply -auto-approve tfplan

@@ -1,0 +1,6 @@
+@Agentic.DevOps.WebAPI_HostAddress = http://localhost:5147
+
+GET {{Agentic.DevOps.WebAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

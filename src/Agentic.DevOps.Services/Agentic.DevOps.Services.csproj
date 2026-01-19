@@ -1,0 +1,11 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <RootNamespace>Agentic.DevOps.Services</RootNamespace>
+    <AssemblyName>Agentic.DevOps.Services</AssemblyName>
+  </PropertyGroup>
+
+</Project>
