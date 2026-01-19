@@ -28,7 +28,9 @@ resource "azurerm_linux_web_app" "this" {
 
   site_config {
     always_on        = var.always_on
-    linux_fx_version = var.linux_fx_version
+    application_stack {
+      dotnet_version = var.dotnet_version
+    }
   }
 
   app_settings = {

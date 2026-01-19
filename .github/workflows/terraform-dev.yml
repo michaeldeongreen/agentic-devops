@@ -22,4 +22,4 @@ jobs:
       environment-name: Development
       working-directory: infra/terraform/envs/dev
       app-service-plan-sku-name: B1
-      linux-fx-version: DOTNETCORE|9.0
+      dotnet-version: "9.0"

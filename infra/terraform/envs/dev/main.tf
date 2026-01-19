@@ -33,7 +33,7 @@ module "app_service" {
   app_insights_name      = var.app_insights_name
   resource_group_name    = data.azurerm_resource_group.target.name
   location               = data.azurerm_resource_group.target.location
-  linux_fx_version       = var.linux_fx_version
+  dotnet_version         = var.dotnet_version
   always_on              = var.always_on
   tags                   = var.tags
 }

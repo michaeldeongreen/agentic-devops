@@ -19,11 +19,11 @@ on:
         required: true
         type: string
         default: "B1"
-      linux-fx-version:
-        description: "Linux runtime stack (e.g., DOTNETCORE|9.0)."
+      dotnet-version:
+        description: "Dotnet runtime version for Linux Web App (e.g., 9.0)."
         required: true
         type: string
-        default: "DOTNETCORE|9.0"
+        default: "9.0"
     secrets:
       AZURE_CLIENT_ID:
         required: true
@@ -76,7 +76,7 @@ jobs:
             -var="app_service_plan_name=${{ vars.APP_SERVICE_PLAN_NAME }}" \
             -var="app_service_plan_sku_name=${{ inputs.app-service-plan-sku-name }}" \
             -var="app_insights_name=${{ vars.APP_INSIGHTS_NAME }}" \
-            -var="linux_fx_version=${{ inputs.linux-fx-version }}"
+            -var="dotnet_version=${{ inputs.dotnet-version }}"
 
       - name: Terraform Apply
         working-directory: ${{ inputs.working-directory }}

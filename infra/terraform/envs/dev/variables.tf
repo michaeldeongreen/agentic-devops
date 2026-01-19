@@ -26,10 +26,10 @@ variable "app_insights_name" {
   type        = string
 }
 
-variable "linux_fx_version" {
-  description = "Linux runtime stack for the Web App."
+variable "dotnet_version" {
+  description = "Dotnet runtime version for the Linux Web App (e.g., 9.0)."
   type        = string
-  default     = "DOTNETCORE|9.0"
+  default     = "9.0"
 }
 
 variable "always_on" {
