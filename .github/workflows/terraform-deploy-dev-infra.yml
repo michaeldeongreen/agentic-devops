@@ -1,0 +1,28 @@
+# Development workflow that calls the reusable Terraform workflow.
+# Uses the GitHub Environment named Development.
+
+name: Terraform Dev
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - .github/workflows/terraform-deploy-*.yml
+      - infra/**
+  workflow_dispatch:
+
+jobs:
+  deploy-dev:
+    name: Deploy DEV Infrastructure
+    uses: ./.github/workflows/terraform-deploy-infra-template.yml
+    secrets:
+      AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+      AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+      AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+    with:
+      environment-name: Development
+      working-directory: infra/terraform/envs/dev
+      app-service-plan-sku-name: B1
+      dotnet-version: "9.0"
