@@ -1,0 +1,56 @@
+name: CD Deploy WebAPI
+
+description: Deploy the WebAPI to Azure App Service.
+
+inputs:
+  app-service-name:
+    description: Azure App Service name.
+    required: true
+  dotnet-version:
+    description: Dotnet SDK version to use.
+    required: false
+    default: 9.0.x
+  publish-path:
+    description: Output path for dotnet publish.
+    required: false
+    default: ./publish
+  azure-client-id:
+    description: Azure client ID.
+    required: true
+  azure-tenant-id:
+    description: Azure tenant ID.
+    required: true
+  azure-subscription-id:
+    description: Azure subscription ID.
+    required: true
+  azure-client-secret:
+    description: Azure client secret.
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: ${{ inputs.dotnet-version }}
+
+    - name: Publish WebAPI
+      shell: bash
+      run: |
+        dotnet restore src/Agentic.DevOps.WebAPI/Agentic.DevOps.WebAPI.csproj
+        dotnet publish src/Agentic.DevOps.WebAPI/Agentic.DevOps.WebAPI.csproj --configuration Release --output ${{ inputs.publish-path }}
+
+    - name: Azure Login
+      uses: azure/login@v2
+      with:
+        client-id: ${{ inputs.azure-client-id }}
+        tenant-id: ${{ inputs.azure-tenant-id }}
+        subscription-id: ${{ inputs.azure-subscription-id }}
+        client-secret: ${{ inputs.azure-client-secret }}
+
+    - name: Deploy to App Service
+      uses: azure/webapps-deploy@v3
+      with:
+        app-name: ${{ inputs.app-service-name }}
+        package: ${{ inputs.publish-path }}
