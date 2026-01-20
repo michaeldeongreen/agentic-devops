@@ -2,10 +2,13 @@
 // Keep changes small and environment-agnostic for reuse across dev/test/prod.
 
 locals {
-  sanitized_base        = replace(lower(var.foundry_resource_name), "[^a-z0-9]", "")
-  ai_services_name      = var.ai_services_name != "" ? var.ai_services_name : substr("ais${local.sanitized_base}", 0, 64)
-  storage_account_name  = var.storage_account_name != "" ? var.storage_account_name : substr("st${local.sanitized_base}", 0, 24)
-  public_network_access = var.public_network_access ? "Enabled" : "Disabled"
+  sanitized_base              = replace(lower(var.foundry_resource_name), "[^a-z0-9]", "")
+  ai_services_name            = var.ai_services_name != "" ? var.ai_services_name : substr("ais${local.sanitized_base}", 0, 64)
+  storage_account_seed        = var.storage_account_name != "" ? var.storage_account_name : "st${local.sanitized_base}"
+  storage_account_sanitized   = replace(lower(local.storage_account_seed), "[^a-z0-9]", "")
+  storage_account_truncated   = substr(local.storage_account_sanitized, 0, 24)
+  storage_account_name        = length(local.storage_account_truncated) < 3 ? substr("st${local.storage_account_truncated}", 0, 24) : local.storage_account_truncated
+  public_network_access       = var.public_network_access ? "Enabled" : "Disabled"
 }
 
 resource "azurerm_storage_account" "this" {

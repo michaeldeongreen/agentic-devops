@@ -3,8 +3,14 @@
 
 data "azurerm_client_config" "current" {}
 
+locals {
+  key_vault_sanitized = replace(lower(var.key_vault_name), "[^a-z0-9-]", "")
+  key_vault_truncated = substr(local.key_vault_sanitized, 0, 24)
+  key_vault_name      = length(local.key_vault_truncated) < 3 ? substr("kv${local.key_vault_truncated}", 0, 24) : local.key_vault_truncated
+}
+
 resource "azurerm_key_vault" "this" {
-  name                = var.key_vault_name
+  name                = local.key_vault_name
   resource_group_name = var.resource_group_name
   location            = var.location
 
