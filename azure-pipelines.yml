@@ -28,6 +28,8 @@ variables:
     value: 'aif-agentic-devops-dev'
   - name: FOUNDRY_PROJECT_NAME
     value: 'aif-project-agentic-devops-dev'
+  - name: FOUNDRY_PUBLIC_NETWORK_ACCESS
+    value: 'true'
 
 stages:
   - stage: Deploy_Dev
@@ -59,4 +61,5 @@ stages:
                     keyVaultName: '$(KEYVAULT_NAME)'
                     foundryResourceName: '$(FOUNDRY_RESOURCE_NAME)'
                     foundryProjectName: '$(FOUNDRY_PROJECT_NAME)'
+                    foundryPublicNetworkAccess: '$(FOUNDRY_PUBLIC_NETWORK_ACCESS)'
                     linuxFxVersion: 'DOTNETCORE|9.0'

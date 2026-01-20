@@ -18,6 +18,7 @@ parameters:
   keyVaultName: ''
   foundryResourceName: ''
   foundryProjectName: ''
+  foundryPublicNetworkAccess: 'true'
   linuxFxVersion: 'DOTNETCORE|9.0'
 
 steps:
@@ -56,6 +57,7 @@ steps:
           -var="foundry_resource_name=${{ parameters.foundryResourceName }}" \
           -var="foundry_project_name=${{ parameters.foundryProjectName }}" \
           -var="foundry_storage_account_name=${{ parameters.tfStateStorageAccount }}" \
+          -var="foundry_public_network_access=${{ parameters.foundryPublicNetworkAccess }}" \
           -var="linux_fx_version=${{ parameters.linuxFxVersion }}"
 
   - task: AzureCLI@2

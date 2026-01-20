@@ -81,6 +81,7 @@ jobs:
             -var="foundry_resource_name=${{ vars.FOUNDRY_RESOURCE_NAME }}" \
             -var="foundry_project_name=${{ vars.FOUNDRY_PROJECT_NAME }}" \
             -var="foundry_storage_account_name=${{ vars.FOUNDRY_STORAGE_ACCOUNT_NAME }}" \
+            -var="foundry_public_network_access=${{ vars.FOUNDRY_PUBLIC_NETWORK_ACCESS }}" \
             -var="log_analytics_workspace_name=${{ vars.LOG_ANALYTICS_WORKSPACE_NAME }}" \
             -var="log_analytics_workspace_sku=${{ vars.LOG_ANALYTICS_WORKSPACE_SKU }}" \
             -var="log_analytics_workspace_retention_in_days=${{ vars.LOG_ANALYTICS_WORKSPACE_RETENTION_IN_DAYS }}" \
