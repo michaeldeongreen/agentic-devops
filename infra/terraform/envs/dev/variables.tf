@@ -53,8 +53,14 @@ variable "foundry_ai_services_name" {
 }
 
 variable "foundry_storage_account_name" {
-  description = "Optional override for the Foundry storage account name."
+  description = "Storage account name to reuse for Foundry (e.g., the TF state storage account)."
   type        = string
+  default     = ""
+
+  validation {
+    condition     = length(var.foundry_storage_account_name) > 0
+    error_message = "foundry_storage_account_name must be set (provide the existing storage account name)."
+  }
 }
 
 variable "foundry_model_name" {
