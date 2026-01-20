@@ -55,7 +55,6 @@ variable "foundry_ai_services_name" {
 variable "foundry_storage_account_name" {
   description = "Optional override for the Foundry storage account name."
   type        = string
-  default     = ""
 }
 
 variable "foundry_model_name" {

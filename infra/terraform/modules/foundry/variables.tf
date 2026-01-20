@@ -25,6 +25,11 @@ variable "key_vault_id" {
   type        = string
 }
 
+variable "storage_account_id" {
+  description = "Existing storage account ID to reuse for Foundry."
+  type        = string
+}
+
 variable "ai_services_name" {
   description = "Optional override for the AI Services account name."
   type        = string
@@ -37,11 +42,6 @@ variable "ai_services_sku_name" {
   default     = "S0"
 }
 
-variable "storage_account_name" {
-  description = "Optional override for the storage account name used by Foundry."
-  type        = string
-  default     = ""
-}
 
 variable "model_name" {
   description = "Model name to deploy."

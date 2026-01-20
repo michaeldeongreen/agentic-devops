@@ -4,23 +4,7 @@
 locals {
   sanitized_base              = replace(lower(var.foundry_resource_name), "[^a-z0-9]", "")
   ai_services_name            = var.ai_services_name != "" ? var.ai_services_name : substr("ais${local.sanitized_base}", 0, 64)
-  storage_account_seed        = var.storage_account_name != "" ? var.storage_account_name : "st${local.sanitized_base}"
-  storage_account_sanitized   = replace(replace(replace(replace(lower(local.storage_account_seed), "-", ""), "_", ""), " ", ""), ".", "")
-  storage_account_truncated   = substr(local.storage_account_sanitized, 0, 24)
-  storage_account_name        = length(local.storage_account_truncated) < 3 ? substr("st${local.storage_account_truncated}", 0, 24) : local.storage_account_truncated
   public_network_access       = var.public_network_access ? "Enabled" : "Disabled"
-}
-
-resource "azurerm_storage_account" "this" {
-  name                     = local.storage_account_name
-  resource_group_name      = var.resource_group_name
-  location                 = var.location
-  account_kind             = "StorageV2"
-  account_tier             = "Standard"
-  account_replication_type = "LRS"
-  min_tls_version          = "TLS1_2"
-
-  tags = var.tags
 }
 
 resource "azurerm_ai_services" "this" {
@@ -37,7 +21,7 @@ resource "azurerm_ai_foundry" "this" {
   name                = var.foundry_resource_name
   location            = var.location
   resource_group_name = var.resource_group_name
-  storage_account_id  = azurerm_storage_account.this.id
+  storage_account_id  = var.storage_account_id
   key_vault_id        = var.key_vault_id
   public_network_access = local.public_network_access
 
@@ -49,7 +33,7 @@ resource "azurerm_ai_foundry" "this" {
 }
 
 resource "azurerm_role_assignment" "foundry_storage_blob_contributor" {
-  scope                = azurerm_storage_account.this.id
+  scope                = var.storage_account_id
   role_definition_name = "Storage Blob Data Contributor"
   principal_id         = azurerm_ai_foundry.this.identity[0].principal_id
 }
