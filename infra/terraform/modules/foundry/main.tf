@@ -2,7 +2,7 @@
 // Keep changes small and environment-agnostic for reuse across dev/test/prod.
 
 locals {
-  sanitized_base        = regexreplace(lower(var.foundry_resource_name), "[^a-z0-9]", "")
+  sanitized_base        = replace(lower(var.foundry_resource_name), "[^a-z0-9]", "")
   ai_services_name      = var.ai_services_name != "" ? var.ai_services_name : substr("ais${local.sanitized_base}", 0, 64)
   storage_account_name  = var.storage_account_name != "" ? var.storage_account_name : substr("st${local.sanitized_base}", 0, 24)
   public_network_access = var.public_network_access ? "Enabled" : "Disabled"
