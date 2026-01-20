@@ -28,11 +28,6 @@ data "azurerm_resource_group" "target" {
   name = var.resource_group_name
 }
 
-data "azurerm_storage_account" "foundry" {
-  name                = var.foundry_storage_account_name
-  resource_group_name = data.azurerm_resource_group.target.name
-}
-
 module "app_service" {
   source = "../../modules/app_service"
 
@@ -87,34 +82,4 @@ module "app_insights" {
   resource_group_name        = data.azurerm_resource_group.target.name
   location                   = data.azurerm_resource_group.target.location
   tags                       = var.tags
-}
-
-module "key_vault" {
-  source = "../../modules/key_vault"
-
-  key_vault_name     = var.key_vault_name
-  resource_group_name = data.azurerm_resource_group.target.name
-  location            = data.azurerm_resource_group.target.location
-  tags                = var.tags
-}
-
-module "foundry" {
-  source = "../../modules/foundry"
-
-  foundry_resource_name     = var.foundry_resource_name
-  foundry_project_name      = var.foundry_project_name
-  ai_services_name          = var.foundry_ai_services_name
-  storage_account_id        = data.azurerm_storage_account.foundry.id
-  model_name                = var.foundry_model_name
-  model_format              = var.foundry_model_format
-  model_version             = var.foundry_model_version
-  model_deployment_name     = var.foundry_model_deployment_name
-  model_sku_name            = var.foundry_model_sku_name
-  model_tpm_capacity        = var.foundry_model_tpm_capacity
-  public_network_access     = var.foundry_public_network_access
-  create_storage_role_assignment = var.foundry_create_storage_role_assignment
-  key_vault_id              = module.key_vault.id
-  resource_group_name       = data.azurerm_resource_group.target.name
-  location                  = data.azurerm_resource_group.target.location
-  tags                      = var.tags
 }

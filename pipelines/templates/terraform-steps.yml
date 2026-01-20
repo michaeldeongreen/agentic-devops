@@ -15,10 +15,6 @@ parameters:
   appServicePlanName: ''
   appServicePlanSkuName: 'B1'
   appInsightsName: ''
-  keyVaultName: ''
-  foundryResourceName: ''
-  foundryProjectName: ''
-  foundryPublicNetworkAccess: 'true'
   linuxFxVersion: 'DOTNETCORE|9.0'
 
 steps:
@@ -53,11 +49,6 @@ steps:
           -var="app_service_plan_name=${{ parameters.appServicePlanName }}" \
           -var="app_service_plan_sku_name=${{ parameters.appServicePlanSkuName }}" \
           -var="app_insights_name=${{ parameters.appInsightsName }}" \
-          -var="key_vault_name=${{ parameters.keyVaultName }}" \
-          -var="foundry_resource_name=${{ parameters.foundryResourceName }}" \
-          -var="foundry_project_name=${{ parameters.foundryProjectName }}" \
-          -var="foundry_storage_account_name=${{ parameters.tfStateStorageAccount }}" \
-          -var="foundry_public_network_access=${{ parameters.foundryPublicNetworkAccess }}" \
           -var="linux_fx_version=${{ parameters.linuxFxVersion }}"
 
   - task: AzureCLI@2
