@@ -55,6 +55,7 @@ steps:
           -var="key_vault_name=${{ parameters.keyVaultName }}" \
           -var="foundry_resource_name=${{ parameters.foundryResourceName }}" \
           -var="foundry_project_name=${{ parameters.foundryProjectName }}" \
+          -var="foundry_storage_account_name=${{ parameters.tfStateStorageAccount }}" \
           -var="linux_fx_version=${{ parameters.linuxFxVersion }}"
 
   - task: AzureCLI@2

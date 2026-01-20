@@ -43,6 +43,10 @@ resource "azurerm_ai_foundry_project" "this" {
   location           = var.location
   ai_services_hub_id = azurerm_ai_foundry.this.id
 
+  identity {
+    type = "SystemAssigned"
+  }
+
   tags = var.tags
 }
 
