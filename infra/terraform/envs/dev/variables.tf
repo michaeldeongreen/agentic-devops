@@ -105,6 +105,12 @@ variable "foundry_public_network_access" {
   default     = true
 }
 
+variable "foundry_create_storage_role_assignment" {
+  description = "Whether Terraform should create the Foundry storage role assignment (disable if it already exists)."
+  type        = bool
+  default     = false
+}
+
 variable "log_analytics_workspace_name" {
   description = "Log Analytics workspace name for dev."
   type        = string

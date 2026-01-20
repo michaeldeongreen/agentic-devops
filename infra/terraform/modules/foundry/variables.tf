@@ -30,6 +30,12 @@ variable "storage_account_id" {
   type        = string
 }
 
+variable "create_storage_role_assignment" {
+  description = "Whether to create the storage role assignment for the Foundry hub identity."
+  type        = bool
+  default     = true
+}
+
 variable "ai_services_name" {
   description = "Optional override for the AI Services account name."
   type        = string

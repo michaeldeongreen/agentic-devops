@@ -112,6 +112,7 @@ module "foundry" {
   model_sku_name            = var.foundry_model_sku_name
   model_tpm_capacity        = var.foundry_model_tpm_capacity
   public_network_access     = var.foundry_public_network_access
+  create_storage_role_assignment = var.foundry_create_storage_role_assignment
   key_vault_id              = module.key_vault.id
   resource_group_name       = data.azurerm_resource_group.target.name
   location                  = data.azurerm_resource_group.target.location

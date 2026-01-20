@@ -33,6 +33,7 @@ resource "azurerm_ai_foundry" "this" {
 }
 
 resource "azurerm_role_assignment" "foundry_storage_blob_contributor" {
+  count                = var.create_storage_role_assignment ? 1 : 0
   scope                = var.storage_account_id
   role_definition_name = "Storage Blob Data Contributor"
   principal_id         = azurerm_ai_foundry.this.identity[0].principal_id
