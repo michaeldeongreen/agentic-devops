@@ -47,6 +47,12 @@ resource "azurerm_ai_foundry" "this" {
   tags = var.tags
 }
 
+resource "azurerm_role_assignment" "foundry_storage_blob_contributor" {
+  scope                = azurerm_storage_account.this.id
+  role_definition_name = "Storage Blob Data Contributor"
+  principal_id         = azurerm_ai_foundry.this.identity[0].principal_id
+}
+
 resource "azurerm_ai_foundry_project" "this" {
   name               = var.foundry_project_name
   location           = var.location

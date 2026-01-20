@@ -16,7 +16,11 @@ terraform {
 }
 
 provider "azurerm" {
-  features {}
+  features {
+    storage {
+      data_plane_available = false
+    }
+  }
 }
 
 // Resource group already exists; use a data source.
