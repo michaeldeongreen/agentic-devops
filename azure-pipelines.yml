@@ -22,6 +22,12 @@ variables:
     value: 'asp-agentic-devops-dev'
   - name: APP_INSIGHTS_NAME
     value: 'appi-agentic-devops-dev'
+  - name: KEYVAULT_NAME
+    value: 'kv-agentic-devops-dev'
+  - name: FOUNDRY_RESOURCE_NAME
+    value: 'aif-agentic-devops-dev'
+  - name: FOUNDRY_PROJECT_NAME
+    value: 'aif-project-agentic-devops-dev'
 
 stages:
   - stage: Deploy_Dev
@@ -50,4 +56,7 @@ stages:
                     appServicePlanName: '$(APP_SERVICE_PLAN_NAME)'
                     appServicePlanSkuName: 'B1'
                     appInsightsName: '$(APP_INSIGHTS_NAME)'
+                    keyVaultName: '$(KEYVAULT_NAME)'
+                    foundryResourceName: '$(FOUNDRY_RESOURCE_NAME)'
+                    foundryProjectName: '$(FOUNDRY_PROJECT_NAME)'
                     linuxFxVersion: 'DOTNETCORE|9.0'

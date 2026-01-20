@@ -30,6 +30,13 @@ resource "azurerm_linux_web_app" "this" {
   location            = var.location
   service_plan_id     = local.app_service_plan_id
 
+  dynamic "identity" {
+    for_each = var.enable_system_assigned_identity ? [1] : []
+    content {
+      type = "SystemAssigned"
+    }
+  }
+
   site_config {
     always_on        = var.always_on
     application_stack {

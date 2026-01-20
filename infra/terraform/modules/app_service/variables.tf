@@ -60,6 +60,12 @@ variable "always_on" {
   default     = true
 }
 
+variable "enable_system_assigned_identity" {
+  description = "Enable system-assigned managed identity on the Web App."
+  type        = bool
+  default     = false
+}
+
 variable "app_settings" {
   description = "Additional app settings to apply to the Web App."
   type        = map(string)
