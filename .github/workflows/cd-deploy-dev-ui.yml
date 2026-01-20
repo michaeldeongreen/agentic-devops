@@ -1,0 +1,30 @@
+# Development CD workflow that runs after CI success.
+
+name: CD Deploy Dev UI
+
+on:
+  workflow_run:
+    workflows:
+      - CI Build Dev Code
+    types:
+      - completed
+
+jobs:
+  deploy-dev:
+    name: Deploy Dev UI
+    if: ${{ github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_branch == 'main' }}
+    environment: Development
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Deploy UI
+        uses: ./.github/actions/cd-deploy-ui
+        with:
+          app-service-name: ${{ vars.APP_SERVICE_NAME_UI }}
+          dotnet-version: "9.0.x"
+          publish-path: ./publish
+          azure-credentials: >-
+            {"clientId":"${{ secrets.AZURE_CLIENT_ID }}","clientSecret":"${{ secrets.AZURE_CLIENT_SECRET }}","subscriptionId":"${{ secrets.AZURE_SUBSCRIPTION_ID }}","tenantId":"${{ secrets.AZURE_TENANT_ID }}"}

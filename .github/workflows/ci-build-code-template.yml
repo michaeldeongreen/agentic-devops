@@ -29,12 +29,14 @@ jobs:
         run: |
           dotnet restore src/Agentic.DevOps.Services/Agentic.DevOps.Services.csproj
           dotnet restore src/Agentic.DevOps.WebAPI/Agentic.DevOps.WebAPI.csproj
+          dotnet restore src/Agentic.DevOps.UI/Agentic.DevOps.UI.csproj
           dotnet restore src/Agentic.DevOps.Services.UnitTests/Agentic.DevOps.Services.UnitTests.csproj
 
       - name: Build
         run: |
           dotnet build src/Agentic.DevOps.Services/Agentic.DevOps.Services.csproj --configuration Release --no-restore
           dotnet build src/Agentic.DevOps.WebAPI/Agentic.DevOps.WebAPI.csproj --configuration Release --no-restore
+          dotnet build src/Agentic.DevOps.UI/Agentic.DevOps.UI.csproj --configuration Release --no-restore
           dotnet build src/Agentic.DevOps.Services.UnitTests/Agentic.DevOps.Services.UnitTests.csproj --configuration Release --no-restore
 
       - name: Test

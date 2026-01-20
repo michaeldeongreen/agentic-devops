@@ -4,3 +4,8 @@ output "app_service_url" {
   description = "Default hostname for the Web App."
   value       = azurerm_linux_web_app.this.default_hostname
 }
+
+output "app_service_plan_id" {
+  description = "App Service Plan ID used by this module."
+  value       = local.app_service_plan_id
+}

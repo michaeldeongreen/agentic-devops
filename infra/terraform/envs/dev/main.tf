@@ -30,12 +30,31 @@ module "app_service" {
   app_service_name       = var.app_service_name
   app_service_plan_name  = var.app_service_plan_name
   app_service_plan_sku_name = var.app_service_plan_sku_name
+  create_app_service_plan = true
   app_insights_instrumentation_key = module.app_insights.instrumentation_key
   app_insights_connection_string   = module.app_insights.connection_string
   resource_group_name    = data.azurerm_resource_group.target.name
   location               = data.azurerm_resource_group.target.location
   dotnet_version         = var.dotnet_version
   always_on              = var.always_on
+  tags                   = var.tags
+}
+
+module "app_service_ui" {
+  source = "../../modules/app_service"
+
+  app_service_name       = var.app_service_name_ui
+  app_service_plan_name  = var.app_service_plan_name
+  app_service_plan_sku_name = var.app_service_plan_sku_name
+  create_app_service_plan = false
+  app_service_plan_id     = module.app_service.app_service_plan_id
+  app_insights_instrumentation_key = module.app_insights.instrumentation_key
+  app_insights_connection_string   = module.app_insights.connection_string
+  resource_group_name    = data.azurerm_resource_group.target.name
+  location               = data.azurerm_resource_group.target.location
+  dotnet_version         = var.dotnet_version
+  always_on              = var.always_on
+  app_settings           = merge(var.ui_app_settings, { "APP_ROLE" = "ui" })
   tags                   = var.tags
 }
 

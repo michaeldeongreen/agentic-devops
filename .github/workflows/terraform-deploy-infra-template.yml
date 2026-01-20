@@ -73,6 +73,7 @@ jobs:
             -out=tfplan \
             -var="resource_group_name=${{ vars.RESOURCE_GROUP }}" \
             -var="app_service_name=${{ vars.APP_SERVICE_NAME }}" \
+            -var="app_service_name_ui=${{ vars.APP_SERVICE_NAME_UI }}" \
             -var="app_service_plan_name=${{ vars.APP_SERVICE_PLAN_NAME }}" \
             -var="app_service_plan_sku_name=${{ inputs.app-service-plan-sku-name }}" \
             -var="app_insights_name=${{ vars.APP_INSIGHTS_NAME }}" \

@@ -1,0 +1,30 @@
+﻿@page "/"
+
+<PageTitle>Agentic DevOps UI</PageTitle>
+
+<section class="chat-shell">
+	<header class="chat-header">
+		<h1>Agentic DevOps Chat</h1>
+		<p>Submit a prompt to orchestrate the infra and code agents. No backend is wired yet.</p>
+	</header>
+
+	<div class="chat-thread">
+		<div class="chat-message system">
+			<strong>System</strong>
+			<span>Welcome! This UI is a placeholder for Foundry orchestration.</span>
+		</div>
+		<div class="chat-message assistant">
+			<strong>Assistant</strong>
+			<span>Ready to analyze infra and code once orchestration is connected.</span>
+		</div>
+	</div>
+
+	<form class="chat-input" onsubmit="return false;">
+		<label for="prompt" class="sr-only">Prompt</label>
+		<textarea id="prompt" rows="3" placeholder="Type a prompt..." disabled></textarea>
+		<div class="chat-actions">
+			<button class="btn-primary" disabled>Start Orchestration</button>
+			<span class="status">Not connected</span>
+		</div>
+	</form>
+</section>

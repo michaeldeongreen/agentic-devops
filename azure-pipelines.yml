@@ -16,6 +16,8 @@ variables:
   # App-specific values (set these in the variable group for dev).
   - name: APP_SERVICE_NAME
     value: 'agentic-devops-webapi-dev'
+  - name: APP_SERVICE_NAME_UI
+    value: 'agentic-devops-ui-dev'
   - name: APP_SERVICE_PLAN_NAME
     value: 'asp-agentic-devops-dev'
   - name: APP_INSIGHTS_NAME
@@ -44,6 +46,7 @@ stages:
                     tfStateKey: '$(TF_STATE_KEY)'
                     resourceGroupName: '$(RESOURCE_GROUP)'
                     appServiceName: '$(APP_SERVICE_NAME)'
+                    appServiceNameUi: '$(APP_SERVICE_NAME_UI)'
                     appServicePlanName: '$(APP_SERVICE_PLAN_NAME)'
                     appServicePlanSkuName: 'B1'
                     appInsightsName: '$(APP_INSIGHTS_NAME)'

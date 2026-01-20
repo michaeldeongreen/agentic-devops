@@ -11,6 +11,7 @@ parameters:
   tfStateKey: ''
   resourceGroupName: ''
   appServiceName: ''
+  appServiceNameUi: ''
   appServicePlanName: ''
   appServicePlanSkuName: 'B1'
   appInsightsName: ''
@@ -44,6 +45,7 @@ steps:
           -out=tfplan \
           -var="resource_group_name=${{ parameters.resourceGroupName }}" \
           -var="app_service_name=${{ parameters.appServiceName }}" \
+          -var="app_service_name_ui=${{ parameters.appServiceNameUi }}" \
           -var="app_service_plan_name=${{ parameters.appServicePlanName }}" \
           -var="app_service_plan_sku_name=${{ parameters.appServicePlanSkuName }}" \
           -var="app_insights_name=${{ parameters.appInsightsName }}" \

@@ -10,6 +10,11 @@ variable "app_service_name" {
   type        = string
 }
 
+variable "app_service_name_ui" {
+  description = "UI Web App name for dev. Must be globally unique."
+  type        = string
+}
+
 variable "app_service_plan_name" {
   description = "App Service Plan name for dev."
   type        = string
@@ -53,6 +58,12 @@ variable "always_on" {
   description = "Keep the app always on."
   type        = bool
   default     = true
+}
+
+variable "ui_app_settings" {
+  description = "Additional app settings for the UI app."
+  type        = map(string)
+  default     = {}
 }
 
 variable "tags" {

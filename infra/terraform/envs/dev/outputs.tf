@@ -4,3 +4,8 @@ output "app_service_url" {
   description = "Default hostname for the Web App."
   value       = module.app_service.app_service_url
 }
+
+output "app_service_ui_url" {
+  description = "Default hostname for the UI Web App."
+  value       = module.app_service_ui.app_service_url
+}
