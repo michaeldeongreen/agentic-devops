@@ -1,30 +1,63 @@
 ﻿@page "/"
+@rendermode InteractiveServer
+@inject Agentic.DevOps.UI.Services.FoundryWorkflowClient FoundryClient
 
 <PageTitle>Agentic DevOps UI</PageTitle>
 
 <section class="chat-shell">
 	<header class="chat-header">
 		<h1>Agentic DevOps Chat</h1>
-		<p>Submit a prompt to orchestrate the infra and code agents. No backend is wired yet.</p>
+		<p>Submit a prompt to orchestrate the infra and code agents.</p>
 	</header>
 
 	<div class="chat-thread">
-		<div class="chat-message system">
-			<strong>System</strong>
-			<span>Welcome! This UI is a placeholder for orchestration.</span>
-		</div>
-		<div class="chat-message assistant">
-			<strong>Assistant</strong>
-			<span>Ready to analyze infra and code once orchestration is connected.</span>
-		</div>
+		@if (!string.IsNullOrWhiteSpace(response))
+		{
+			<div class="chat-message assistant">
+				<strong>Assistant</strong>
+				<span>@response</span>
+			</div>
+		}
+		@if (!string.IsNullOrWhiteSpace(error))
+		{
+			<div class="chat-message system">
+				<strong>Error</strong>
+				<span>@error</span>
+			</div>
+		}
 	</div>
 
-	<form class="chat-input" onsubmit="return false;">
+	<form class="chat-input" @onsubmit="SendAsync" @onsubmit:preventDefault="true">
 		<label for="prompt" class="sr-only">Prompt</label>
-		<textarea id="prompt" rows="3" placeholder="Type a prompt..." disabled></textarea>
+		<textarea id="prompt" rows="3" placeholder="Type a prompt..." @bind="prompt"></textarea>
 		<div class="chat-actions">
-			<button class="btn-primary" disabled>Start Orchestration</button>
-			<span class="status">Not connected</span>
+			<button class="btn-primary" disabled="@isBusy">Start Orchestration</button>
+			<span class="status">@(isBusy ? "Sending..." : "Ready")</span>
 		</div>
 	</form>
 </section>
+
+@code {
+	private string prompt = "";
+	private string response = "";
+	private string error = "";
+	private bool isBusy;
+
+	private async Task SendAsync()
+	{
+		isBusy = true;
+		error = "";
+		try
+		{
+			response = await FoundryClient.InvokeAsync(prompt, CancellationToken.None);
+		}
+		catch (Exception ex)
+		{
+			error = ex.Message;
+		}
+		finally
+		{
+			isBusy = false;
+		}
+	}
+}

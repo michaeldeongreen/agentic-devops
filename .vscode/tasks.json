@@ -2,6 +2,17 @@
   "version": "2.0.0",
   "tasks": [
     {
+      "label": "build-ui",
+      "type": "shell",
+      "command": "dotnet",
+      "args": [
+        "build",
+        "${workspaceFolder}/src/Agentic.DevOps.UI/Agentic.DevOps.UI.csproj"
+      ],
+      "problemMatcher": ["$msCompile"],
+      "group": "build"
+    },
+    {
       "label": "build",
       "type": "shell",
       "command": "dotnet",

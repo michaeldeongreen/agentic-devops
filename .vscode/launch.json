@@ -2,6 +2,23 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "Agentic.DevOps.UI",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build-ui",
+      "program": "${workspaceFolder}/src/Agentic.DevOps.UI/bin/Debug/net9.0/Agentic.DevOps.UI.dll",
+      "args": [],
+      "cwd": "${workspaceFolder}/src/Agentic.DevOps.UI",
+      "stopAtEntry": false,
+      "serverReadyAction": {
+        "action": "openExternally",
+        "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
+      },
+      "env": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    },
+    {
       "name": "Agentic.DevOps.WebAPI",
       "type": "coreclr",
       "request": "launch",
